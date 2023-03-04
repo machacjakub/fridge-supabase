@@ -4,20 +4,26 @@ import styles from '@/styles/Home.module.css'
 import {useEffect, useState} from "react";
 import {supabase} from "@/database/supabaseClient";
 
+interface Itemis {
+    id: number;
+    name: string;
+    description: string;
+}
 // const inter = Inter({ subsets: ['latin'] })
 //{id: 10, name: 'client', description: 'thodieungs'}, {id: 11, name: 'client Plengs', description: 'sekan plengs in da haus'}
 export default function Home() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<Itemis[]>([]);
   useEffect(() => {
       getItemis()
   }, [])
     const getItemis = async () => {
       try {
-          const { data, error } = await supabase
+          const { data, error }: any = await supabase
               .from('itemis')
               .select('*')
           if(error) throw error;
           if(data) {
+
               setList(data);
           }
       } catch (error) {
