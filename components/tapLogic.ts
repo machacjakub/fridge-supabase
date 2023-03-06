@@ -1,9 +1,9 @@
-import {IItem, IItemToAdd} from "@/pages/types";
+import {IItem} from "@/pages/types";
 import {returnNext, returnPrev} from "@/components/utils";
 
-type TAddItem = ( item: IItemToAdd ) => void;
-type TChangeItem = ( item: IItem ) => void;
-export const getItemsOperations = (	addItem: TAddItem, changeItem: TChangeItem ): any => {
+// type TAddItem = ( item: IItemToAdd ) => void;
+// type TChangeItem = ( item: IItem ) => void;
+export const getItemsOperations = (	addItem: any, changeItem: any ): any => {
 	return {
 		tap: async ( {...item}: IItem ) => {
 			if ( item.count === 1 ) {

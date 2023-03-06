@@ -1,6 +1,6 @@
 import {Navbar} from "@/components/layout/navbar/Navbar";
 import React, {useEffect, useState} from "react";
-import {IItem, IItemToAdd, TItems, TState} from "@/pages/types";
+import {IItem, IItemToAdd, TItems} from "@/pages/types";
 import {ItemsList} from "@/components/items/ItemsList";
 import BottomBar from "@/components/layout/bottom-bar/BottomBar";
 import {getItemsOperations} from "@/components/tapLogic";
@@ -11,7 +11,7 @@ const database = getDatabaseOperations();
 export const HomePage = ( ) => {
 	console.log( 'rendering homepage' );
 	const [items, setItems] = useState<TItems|null>( null );
-	const [page, setPage] = useState<number>( 1 );
+	//const [page, setPage] = useState<number>( 1 );
 	const [loading, setLoading] = useState( true );
 	//const pages: TState[] = ['toBuy', 'inFridge', 'deleted'];
 	//const [formIsDisplayed, setFormDisplayed] = useState<boolean>( false );
