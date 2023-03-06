@@ -51,3 +51,5 @@
 // 		res.status( 405 ).end( `Method ${method} Not Allowed` );
 // 	}
 // }
+
+export {};
