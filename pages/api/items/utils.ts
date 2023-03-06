@@ -1,4 +1,4 @@
-import {TItems} from "@/pages/types";
+import {TItems} from "@/components/types";
 
 export const getItemById = ( id: number, itemList: TItems ) => {
 	return itemList.find( ( item ) => {

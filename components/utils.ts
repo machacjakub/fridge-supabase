@@ -1,4 +1,4 @@
-import {TState} from "@/pages/types";
+import {TState} from "@/components/types";
 
 
 export const belongsToPage = ( itemState: string, page: string ) :boolean => itemState === page || ( itemState === 'open' && page === 'inFridge' );

@@ -1,6 +1,6 @@
 import {Navbar} from "@/components/layout/navbar/Navbar";
 import React, {useEffect, useState} from "react";
-import {IItem, IItemToAdd, TItems} from "@/pages/types";
+import {IItem, IItemToAdd, TItems} from "@/components/types";
 import {ItemsList} from "@/components/items/ItemsList";
 import BottomBar from "@/components/layout/bottom-bar/BottomBar";
 import {getItemsOperations} from "@/components/tapLogic";

@@ -1,4 +1,4 @@
-import {IItem} from "@/pages/types";
+import {IItem} from "@/components/types";
 import {returnNext, returnPrev} from "@/components/utils";
 
 // type TAddItem = ( item: IItemToAdd ) => void;

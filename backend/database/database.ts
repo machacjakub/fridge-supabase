@@ -1,6 +1,6 @@
 import { supabase } from "./supabaseClient";
 import { applyModuleName } from "@/backend/utils/logger";
-import {IItem, IItemToAdd} from "@/pages/types";
+import {IItem, IItemToAdd} from "@/components/types";
 
 const operations = {
 	getItems: async () => {
