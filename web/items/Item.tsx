@@ -1,6 +1,6 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { useState } from "react";
-import { IItem } from "@/components/types";
+import { IItem } from "@/web/types";
 
 interface IProps {
     item: IItem;

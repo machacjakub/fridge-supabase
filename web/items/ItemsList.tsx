@@ -2,7 +2,7 @@
 //'use client';
 
 import { AnimatePresence, motion } from "framer-motion";
-import { IItem, TItems } from "@/components/types";
+import { IItem, TItems } from "@/web/types";
 import { Item } from "./Item";
 
 interface IProps {

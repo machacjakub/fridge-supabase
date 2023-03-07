@@ -1,10 +1,12 @@
 import { supabase } from "./supabaseClient";
-import { applyModuleName } from "@/backend/utils/logger";
-import {IItem, IItemToAdd} from "@/components/types";
+import { getLogger } from "@/utils/logger";
+import {IItem, IItemToAdd} from "@/web/types";
+
+const getFunctionLog = getLogger( 'database' );
 
 const operations = {
 	getItems: async () => {
-		const log = applyModuleName( 'database.getItems' );
+		const log = getFunctionLog( 'getItems' );
 		try {
 			const { data, error }: any = await supabase
 				.from( 'items' )
@@ -22,7 +24,7 @@ const operations = {
 		}
 	},
 	addItem: async ( item: IItemToAdd ) => {
-		const log = applyModuleName( 'database.addItem' );
+		const log = getFunctionLog( 'addItem' );
 		try {
 			const { data, error }: any = await supabase
 				.from( 'items' )
@@ -41,7 +43,7 @@ const operations = {
 		}
 	},
 	updateItem: async ( item: IItem ) => {
-		const log = applyModuleName( 'database.updateItem' );
+		const log = getFunctionLog( 'updateItem' );
 		try {
 			const {data, error}: any = await supabase
 				.from( 'items' )

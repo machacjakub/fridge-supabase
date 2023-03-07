@@ -1,5 +1,5 @@
-import {IItem} from "@/components/types";
-import {returnNext, returnPrev} from "@/components/utils";
+import {IItem} from "@/web/types";
+import {returnNext, returnPrev} from "@/web/utils";
 
 // type TAddItem = ( item: IItemToAdd ) => void;
 // type TChangeItem = ( item: IItem ) => void;
