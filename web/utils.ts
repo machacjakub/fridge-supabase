@@ -22,6 +22,11 @@ export const returnPrev = ( state: TState ) :TState => {
 		    return 'toBuy';
 	}
 };
+
+export const toDate = ( str: string ) => {
+	return new Date( str );
+};
+
 /*
 export const joinDuplicates = ([...items]: TItems) => {
     if()

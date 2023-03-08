@@ -1,2 +1,15 @@
 TODO file
+- presunout klikaci logiku na BE
+- pridat sorting podle expire
+- vyresit item count, expire a category zobrazeni
+- funkce ktera bude slucovat stejne polozky
 - remove /public folder
+- kazda stranka bude posilat dotaz do databaze jenom pro svoje polozky
+- moznost mazat polozky v sekci deleted
+- edit item na podrzeni
+- pridat do formulare clear button
+- vylepsit design
+
+
+DONE
+- pridat fungujici vyskakovaci formular

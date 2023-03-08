@@ -6,7 +6,7 @@ interface IProps {
     handleClick: () => void;
 }
 
-const AddItemButton = ( {handleClick}:IProps ) => {
+export const OpenFormButton = ( {handleClick}:IProps ) => {
 	return (
 		<div style={{
 			color: 'gray',
@@ -19,5 +19,3 @@ const AddItemButton = ( {handleClick}:IProps ) => {
 		</div>
 	);
 };
-
-export default AddItemButton;

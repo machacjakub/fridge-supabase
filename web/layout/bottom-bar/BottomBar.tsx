@@ -1,14 +1,15 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import * as React from 'react';
-import AddItemButton from './AddItemButton';
 import ChangeListButton from './ChangeListButton';
+import {OpenFormButton} from "@/web/layout/bottom-bar/OpenFormButton";
 
 interface IProps {
     handlePageChange: ( x: number ) => void;
     handleFormOpen: () => void;
+	currentPage: number;
 }
 
-const BottomBar = ( {handlePageChange, handleFormOpen} :IProps ) => {
+const BottomBar = ( {handlePageChange, handleFormOpen, currentPage} :IProps ) => {
 	return (
 		<div style={{
 			display: "flex",
@@ -20,9 +21,9 @@ const BottomBar = ( {handlePageChange, handleFormOpen} :IProps ) => {
 			height: '50px',
 			backgroundColor: 'white',
 		}}>
-			<ChangeListButton handlePageChange={handlePageChange} direction={-1}/>
-			<AddItemButton handleClick={handleFormOpen} />
-			<ChangeListButton handlePageChange={handlePageChange} direction={1}/>
+			<ChangeListButton currentPage={currentPage} handlePageChange={handlePageChange} direction={-1}/>
+			<OpenFormButton handleClick={handleFormOpen} />
+			<ChangeListButton currentPage={currentPage} handlePageChange={handlePageChange} direction={1}/>
 		</div>
 	);
 };

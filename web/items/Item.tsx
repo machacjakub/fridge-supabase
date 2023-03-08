@@ -83,7 +83,10 @@ export const Item = ( {item, handleTap, handleDoubleTap}: IProps ) => {
 			onTouchMove={hTouchMove}
 		>
 			{item.name} - {item.expire} - ({item.count}) -{' '}
-			{item.category} - {item.state}
+			{item.category}
 		</div>
 	);
 };
+
+// {item.name} - {item.expire} - ({item.count}) -{' '}
+// {item.category} - {item.state}
