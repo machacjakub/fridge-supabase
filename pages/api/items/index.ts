@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {getDatabaseOperations} from "@/backend/database/database";
 import {IItem, TItems} from "@/web/types";
+import {getItemsQuery} from "@/backend/items/getItems";
 
 type Data = TItems|IItem|string
 
@@ -18,7 +19,7 @@ export default async function hanlder (
 
 	switch ( method ) {
 	case 'GET':
-		const data = await database.getItems();
+		const data = await getItemsQuery();
 		res.status( 200 ).json( data );
 		break;
 	case 'POST':

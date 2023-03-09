@@ -22,8 +22,9 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 			handlePageChange( -1 );
 		},
 	} );
+	const pad = items.length > 1 ? '200px' : '700px';
 	return (
-		<div {...handlers} style={{paddingBottom: '700px'}}>
+		<div {...handlers} style={{paddingBottom: pad}}>
 			<AnimatePresence >
 				{items ? items.map( ( item: IItem ) => (
 					<motion.div

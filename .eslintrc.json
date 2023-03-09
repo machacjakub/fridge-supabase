@@ -1,9 +1,16 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": ["unused-imports"],
+  "extends": ["next/core-web-vitals"/*, "plugin:functional/recommended"*/],
+  "plugins": ["unused-imports", "functional"],
   "rules": {
     "no-restricted-imports": ["error", { "paths": ["@ant-design/icons"] }],
     "no-unused-vars": "off",
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-arrow-callback": "error",
+    "no-param-reassign": "error",
+    "prefer-promise-reject-errors": "warn",
+    "no-return-assign": "error",
+    "prefer-template": "warn",
     "no-multi-spaces": "error",
     "space-in-parens": ["error", "always"],
     "semi": ["error", "always"],

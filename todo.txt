@@ -1,6 +1,5 @@
 TODO file
 - presunout klikaci logiku na BE
-- pridat sorting podle expire
 - vyresit item count, expire a category zobrazeni
 - funkce ktera bude slucovat stejne polozky
 - remove /public folder
@@ -10,6 +9,15 @@ TODO file
 - pridat do formulare clear button
 - vylepsit design
 
+NAPADY
+- lehce pruhledny a sedy formular
+- pri kliku vedle formulare ho zavrit
+
+Done in this PR
+
 
 DONE
 - pridat fungujici vyskakovaci formular
+- aby se formular pridaval podle toho ve kterem seznamu je otevreny
+- fp eslint rules pridany
+- pridat sorting podle expire

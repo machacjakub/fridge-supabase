@@ -13,7 +13,7 @@ export const OpenFormButton = ( {handleClick}:IProps ) => {
 			textAlign: 'center',
 			marginTop: '12px'
 		}} onClick={handleClick}>
-			<p style={{ marginTop: '-8px', fontSize: '40px'}}>
+			<p style={{ marginTop: '0', fontSize: '30px'}}>
 				<PlusOutlined />
 			</p>
 		</div>

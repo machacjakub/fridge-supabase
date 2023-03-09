@@ -25,8 +25,7 @@ export const HomePage = ( ) => {
 	}, [] );
 
 	const addItem = async ( item: IItemToAdd ) => {
-		await addItemRequest( item );
-		const data = await getItemsRequest();
+		const data = await addItemRequest( item );
 		setItems( data );
 	};
 

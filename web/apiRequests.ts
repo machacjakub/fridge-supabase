@@ -25,9 +25,7 @@ export const addItemRequest = async ( {name, expire, count, category, state}:IIt
 				'Content-Type': 'application/json'
 			}
 		} );
-		const data = await response.json();
-		console.log( 'response recieved, item created and persistent (post)' );
-		return data;
+		return await response.json();
 	} catch ( error ) {
 		console.error( error );
 		return error;
