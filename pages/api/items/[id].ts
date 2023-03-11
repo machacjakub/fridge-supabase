@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import {getDatabaseOperations} from "@/backend/database/database";
+import {updateItemMutation} from "@/backend/items/updateItem";
+import {getItemsQuery} from "@/backend/items/getItems";
+import {deleteItemMutation} from "@/backend/items/deleteItem";
 
-const database = getDatabaseOperations();
 export default async function userHandler( req: NextApiRequest, res: NextApiResponse ) {
 	const {
 		query: { id },
@@ -20,23 +21,18 @@ export default async function userHandler( req: NextApiRequest, res: NextApiResp
 	// 	}
 	// 	break;
 	case 'PUT':
-		console.log( '--- PUT item ' + id );
-		await database.updateItem( body );
-		const newItems = await database.getItems();
-		res.send( newItems );
+		await updateItemMutation( body );
+		res.send( await getItemsQuery() );
 		// TODO handle errors and check for existing id
 		//res.status( 404 ).send( 'Error - item not updated' );
 		break;
-	// case 'DELETE':
-	// 	console.log( '--- DELETE item ' + id );
-	// 	const idxToDelete = getIndexById( itemId, items );
-	// 	if ( idxToDelete !== -1 ) {
-	// 		items.splice( idxToDelete, 1 );
-	// 		res.status( 204 ).send( 'newItems' );
-	// 	} else {
-	// 		res.status( 404 ).send( 'Error - item not deleted' );
-	// 	}
-	// 	break;
+	case 'DELETE':
+		if ( id ){
+			await deleteItemMutation( Number( id ) );
+			res.status( 204 ).send( await getItemsQuery() );
+		}
+		res.status( 404 ).send( 'Error - item not deleted' );
+		break;
 	default:
 		res.setHeader( 'Allow', ['GET', 'PUT'] );
 		res.status( 405 ).end( `Method ${method} Not Allowed` );

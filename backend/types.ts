@@ -1,5 +1,5 @@
 export type TState = 'toBuy' | 'inFridge' | 'open' | 'deleted';
-export type TCategory = 'diary' | 'fruit' | 'vegetable' | 'meat' | 'egg' | 'other';
+export type TCategory = 'dairy' | 'fruit' | 'vegetable' | 'meat' | 'egg' | 'other';
 export interface IItem {
     id: number;
     name: string;

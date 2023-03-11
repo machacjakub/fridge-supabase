@@ -11,9 +11,10 @@ interface IProps {
     handleItemTap: ( item: IItem ) => void;
     handleItemDoubleTap: ( item: IItem ) => void;
 	handlePageChange: ( increment: number ) => void
+	page: number;
 }
 
-export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemDoubleTap }:IProps ) => {
+export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemDoubleTap, page }:IProps ) => {
 	const handlers = useSwipeable( {
 		onSwipedLeft: () => {
 			handlePageChange( 1 );
@@ -22,7 +23,7 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 			handlePageChange( -1 );
 		},
 	} );
-	const pad = items.length > 1 ? '200px' : '700px';
+	const pad = items.length <= 6 ? `${800 - items.length * 80}px` : '100px';
 	return (
 		<div {...handlers} style={{paddingBottom: pad}}>
 			<AnimatePresence >
@@ -39,7 +40,7 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 						}}
 						layout
 					>
-						<Item key={item.id} item={item} handleTap={handleItemTap} handleDoubleTap={handleItemDoubleTap} />
+						<Item key={item.id} item={item} handleTap={handleItemTap} handleDoubleTap={handleItemDoubleTap} page={page}/>
 					</motion.div>
 				) ) : 'nodata'}
 			</AnimatePresence>

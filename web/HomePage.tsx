@@ -1,15 +1,15 @@
 import {Navbar} from "@/web/layout/navbar/Navbar";
 import React, {useEffect, useState} from "react";
-import {IFormData, IItem, IItemToAdd, TItems, TState} from "@/web/types";
+import {IFormData, IItem, TItems, TState} from "@/web/types";
 import {ItemsList} from "@/web/items/ItemsList";
 import BottomBar from "@/web/layout/bottom-bar/BottomBar";
-import {getItemsOperations} from "@/web/tapLogic";
-import {addItemRequest, changeItemRequest, getItemsRequest} from "@/web/apiRequests";
+import {addItemRequest, doubleTapItemEvent, getItemsRequest, tapItemEvent} from "@/web/apiRequests";
 import {FormComponent} from "@/web/form/FormComponent";
+import {LoadingOutlined} from "@ant-design/icons";
+import {pipe} from "fputils";
 
 // eslint-disable-next-line react/display-name
 export const HomePage = ( ) => {
-	console.log( 'rendering homepage' );
 	const [items, setItems] = useState<TItems|null>( null );
 	const [page, setPage] = useState<number>( 1 );
 	const [loading, setLoading] = useState( true );
@@ -24,20 +24,15 @@ export const HomePage = ( ) => {
 		fetchItems();
 	}, [] );
 
-	const addItem = async ( item: IItemToAdd ) => {
-		const data = await addItemRequest( item );
-		setItems( data );
-	};
+	// const changeItem = async ( item: IItem ) => {
+	// 	await changeItemRequest( item );
+	// 	const data = await getItemsRequest();
+	// 	setItems( data );
+	// };
 
-	const changeItem = async ( item: IItem ) => {
-		await changeItemRequest( item );
-		const data = await getItemsRequest();
-		setItems( data );
-	};
-
-	const handleFormSubmit = ( item: IFormData ) => {
-		addItem( {...item, state: pages[page]} );
+	const handleFormSubmit = async ( item: IFormData ) => {
 		setFormDisplayed( false );
+		pipe( await addItemRequest( {...item, state: pages[page]} ), setItems );
 	};
 
 	const handlePageChange = ( increment: number ) => {
@@ -45,15 +40,23 @@ export const HomePage = ( ) => {
 		setPage( page+increment );
 	};
 
-	const tapHandlers = getItemsOperations( addItem, changeItem );
+	// const tapHandlers = getItemsOperations( addItem, changeItem );
+	const handleItemTap =async ( item: IItem ) => {
+		pipe( await tapItemEvent( item ), setItems );
+	};
+
+	const handleItemDoubleTap =async ( item: IItem ) => {
+		pipe( await doubleTapItemEvent( item ), setItems );
+	};
+	
 
 	if ( loading || !items || items.length === 0 ){
-		return <div>Loading...</div>;
+		return <div style={{ height: '700px', textAlign: 'center'}}><LoadingOutlined style={{fontSize: '30px', marginTop: '350px' }} /></div> ;
 	}
 	return ( <>
 		<Navbar page={page}/>
 		<FormComponent handleFormSubmit={handleFormSubmit} isDisplayed={formIsDisplayed} handleFormClose={() => setFormDisplayed( false )} />
-		<ItemsList items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )} handlePageChange={handlePageChange} handleItemTap={tapHandlers.tap} handleItemDoubleTap={tapHandlers.doubleTap}/>
+		<ItemsList page={page} items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )} handlePageChange={handlePageChange} handleItemTap={handleItemTap} handleItemDoubleTap={handleItemDoubleTap}/>
 		<BottomBar currentPage={page} handlePageChange={handlePageChange} handleFormOpen={() => setFormDisplayed( true )} />
 	</>
 	);

@@ -1,17 +1,22 @@
 TODO file
-- presunout klikaci logiku na BE
+- zobrazovat verzi
+- presunout sorting do sql
+- dotahnout logger vsude
 - vyresit item count, expire a category zobrazeni
 - funkce ktera bude slucovat stejne polozky
+- logo a pocatecni obrazovka
+- loader from antd nebo jenom zobrazit logo? nebo oboje pod sebou?
 - remove /public folder
 - kazda stranka bude posilat dotaz do databaze jenom pro svoje polozky
 - moznost mazat polozky v sekci deleted
 - edit item na podrzeni
-- pridat do formulare clear button
 - vylepsit design
 
 NAPADY
 - lehce pruhledny a sedy formular
 - pri kliku vedle formulare ho zavrit
+- pridat do formulare clear button
+
 
 Done in this PR
 
@@ -21,3 +26,6 @@ DONE
 - aby se formular pridaval podle toho ve kterem seznamu je otevreny
 - fp eslint rules pridany
 - pridat sorting podle expire
+- loader from antd
+- vytvorit resolvery jako mezikrok
+- presunout klikaci logiku na BE

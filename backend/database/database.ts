@@ -44,6 +44,20 @@ const operations = {
 		}
 		log.info( 'Updating item to database succeeded' );
 		return data;
+	},
+	deleteItem: async ( itemId: number ) => {
+		const log = getFunctionLog( 'deleteItem' );
+
+		const {data, error}: any = await supabase
+			.from( 'items' )
+			.delete()
+			.eq( 'id', itemId );
+		if ( error ) {
+			log.error( 'Failed to delete item' );
+			return error;
+		}
+		log.info( 'Deleting item from database succeeded' );
+		return data;
 	}
 };
 

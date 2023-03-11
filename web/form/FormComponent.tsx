@@ -47,9 +47,12 @@ export const FormComponent = ( {handleFormSubmit, isDisplayed, handleFormClose}:
 		if ( categoryI ) setCategory( categoryI );
 	};
 
-	const handleSubmit = () => {
-		console.log( 'handleSub ' + name + " " + expire + " " + count + " " + category );
+	const handleSubmit = async () => {
 		handleFormSubmit( {name, expire, count, category} );
+		setName( '' );
+		setExpire( '' );
+		setCount( 1 );
+		setCategory( 'other' );
 	};
 
 	return (
@@ -57,20 +60,20 @@ export const FormComponent = ( {handleFormSubmit, isDisplayed, handleFormClose}:
 			labelCol={{ span: 4 }}
 			wrapperCol={{ span: 14 }}
 			layout="horizontal"
-			initialValues={{ count: 1 }}
+			initialValues={{ countI: 1, nameI: '', categoryI: 'other' }}
 			onValuesChange={handleChange}
 			onFinish={handleSubmit}
 			size={'small'}
 			style={{display: isDisplayed ? '' : 'none',backgroundColor: 'white', border: 'solid lightgrey 1px', borderRadius: '15px', padding: '14px', position: 'fixed', left: '0', right: '0', margin: '0 10% 0 10%', zIndex: 10}}
 		>
 			<Form.Item label="Name" name='nameI' style={{margin: '0 30px 10px 0'}} >
-				<Input/>
+				<Input />
 			</Form.Item>
 			<Form.Item label="Expire" name='expirationI' style={{margin: '0 0 10px'}}>
 				<DatePicker />
 			</Form.Item>
 			<Form.Item label="Count" name='countI' style={{margin: '0 0 10px'}}>
-				<InputNumber />
+				<InputNumber/>
 			</Form.Item>
 			<Form.Item label="Category" name="categoryI" style={{margin: '0 0 10px'}}>
 				<Select>

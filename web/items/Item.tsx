@@ -1,15 +1,18 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { useState } from "react";
 import { IItem } from "@/web/types";
+import {Col, Row} from "antd";
+import {getCategoryIcon} from "@/web/items/categoryIcons";
 
 interface IProps {
     item: IItem;
     handleTap: ( item: IItem ) => void;
     handleDoubleTap: ( item: IItem ) => void;
+	page: number;
 }
 
-export const Item = ( {item, handleTap, handleDoubleTap}: IProps ) => {
-	const [color, setColor] = useState( 'lightgrey' );
+export const Item = ( {item, handleTap, handleDoubleTap, page}: IProps ) => {
+	const [color, setColor] = useState( '#E8E8E8' );
 	//const color = 'grey';
 	const [stav, setStav] = useState( '-' );
 	const longTouch = 300;
@@ -69,21 +72,38 @@ export const Item = ( {item, handleTap, handleDoubleTap}: IProps ) => {
 			className="item"
 			style={{
 				backgroundColor: color,
-				padding: '18px',
+				padding: '18px 18px 13px 18px',
 				margin: '8px 5px',
 				borderRadius: '15px',
 				fontSize: '18px',
 				border:
-                    item.state == 'open'
-                    	? '2px solid black'
-                    	: '2px solid lightgrey',
+					item.state == 'open'
+						? '2px solid black'
+						: `2px solid ${color}`,
 			}}
 			onTouchStart={hTouchS}
 			onTouchEnd={hTouchEnd}
 			onTouchMove={hTouchMove}
 		>
-			{item.name} - {item.expire} - ({item.count}) -{' '}
-			{item.category}
+			{/* eslint-disable-next-line react/jsx-no-undef */}
+			<Row>
+				<Col span={3} style={{fontSize: '20px'}}>
+					{getCategoryIcon( item.category )}
+				</Col>
+				<Col span={12} style={{fontSize: '15px'}}>
+					{item.name}
+				</Col>
+				<Col span={8} style={{fontSize: '14px', marginTop: '1px', color: 'gray'}}>
+					{item.expire}
+				</Col>
+				<Col span={1} style={{fontSize: '16px'}}>
+					{item.count}
+				</Col>
+			</Row>
+			{/*<span style={{padding: '10px 15px 0 0', fontSize: '22px'}}>{getCategoryIcon( item.category )}</span>*/}
+			{/*<span style={{position: 'relative', bottom: '5px'}}>{item.name}</span>*/}
+			{/*<span style={{position: 'relative', bottom: '5px', color: 'grey'}}>{item.expire}</span>*/}
+			{/*<span style={{position: 'absolute', right: "36px"}}>{item.count}</span>*/}
 		</div>
 	);
 };
