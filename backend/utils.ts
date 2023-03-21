@@ -11,6 +11,10 @@ const ascSort = ( a: Nullable<string>, b: Nullable<string> ) => expireStringToDa
 
 export const sortByExpire = ( items: TItems ) => [...items].sort( ( a, b ) => ascSort( a.expire, b.expire ) );
 
+// export const sortOpenAndExpire = (items: TItems) => {
+// 	const openedItems = items.filter((item) => item.state ==)
+// }
+
 export const returnNext = ( state: TState ) :TState => {
 	switch ( state ){
 	case 'toBuy':

@@ -1,6 +1,6 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import * as React from 'react';
-import { useState } from 'react';
+import { useState} from 'react';
 import {
 	Button,
 	DatePicker,
@@ -10,39 +10,36 @@ import {
 	Select,
 } from 'antd';
 import { pipe } from 'fputils';
-import {TCategory} from "@/web/types";
+import {IItem, TCategory} from "@/web/types";
 import { toDate} from "@/web/utils";
 import {toDateReadable} from "@/utils/utils";
+import dayjs from "dayjs";
 
 interface IProps {
   handleFormSubmit: ( {name, expire, count, category}:any ) => void;
   isDisplayed: boolean;
   handleFormClose: () => void;
+  itemToEdit?: IItem;
 }
 
 interface IOnChangeP {
   nameI: string;
-  expirationI: string;
+  expireI: string;
   countI: number;
   categoryI: TCategory;
 }
 
-export const FormComponent = ( {handleFormSubmit, isDisplayed, handleFormClose}: IProps ) => {
-	const [name, setName] = useState<string>( '' );
-	const [expire, setExpire] = useState<string>( '' );
-	const [count, setCount] = useState<number>( 1 );
-	const [category, setCategory] = useState<TCategory>( 'other' );
-	/*
-	const style = {
-		backgroundColor: 'lightblue',
-		padding: '18px 22px',
-		margin: '15px 5px',
-		borderRadius: '15px',
-	};
-*/
-	const handleChange = ( { nameI, expirationI, countI, categoryI }: IOnChangeP ) => {
+const dateFormat = 'YYYY-MM-DD';
+
+export const FormComponent = ( {handleFormSubmit, isDisplayed, handleFormClose, itemToEdit}: IProps ) => {
+	const [name, setName] = useState<string>( itemToEdit ? itemToEdit.name : '' );
+	const [expire, setExpire] = useState<any>( itemToEdit ? itemToEdit.expire : dayjs( new Date(), dateFormat ) );
+	const [count, setCount] = useState<number>( itemToEdit ? itemToEdit.count : 1 );
+	const [category, setCategory] = useState<TCategory>( itemToEdit ? itemToEdit.category : 'other' );
+
+	const handleChange = ( { nameI, expireI, countI, categoryI }: IOnChangeP ) => {
 		if ( nameI ) setName( nameI );
-		if ( expirationI ) pipe( expirationI, toDate, toDateReadable, setExpire );
+		if ( expireI ) pipe( expireI, toDate, toDateReadable, setExpire );
 		if ( countI ) setCount( countI );
 		if ( categoryI ) setCategory( categoryI );
 	};
@@ -55,29 +52,38 @@ export const FormComponent = ( {handleFormSubmit, isDisplayed, handleFormClose}:
 		setCategory( 'other' );
 	};
 
+
+
 	return (
 		<Form
 			labelCol={{ span: 4 }}
 			wrapperCol={{ span: 14 }}
 			layout="horizontal"
-			initialValues={{ countI: 1, nameI: '', categoryI: 'other' }}
+			initialValues={
+				{
+					countI: itemToEdit ? itemToEdit.count : count,
+					nameI: itemToEdit ? itemToEdit.name : name,
+					categoryI: itemToEdit ? itemToEdit.category : category,
+					expireI: dayjs( itemToEdit ? itemToEdit.expire : expire, dateFormat )
+				}
+			}
 			onValuesChange={handleChange}
 			onFinish={handleSubmit}
 			size={'small'}
-			style={{display: isDisplayed ? '' : 'none',backgroundColor: 'white', border: 'solid lightgrey 1px', borderRadius: '15px', padding: '14px', position: 'fixed', left: '0', right: '0', margin: '0 10% 0 10%', zIndex: 10}}
+			style={{backgroundColor: 'white', border: 'solid lightgrey 1px', borderRadius: '15px', padding: '14px', position: 'fixed', left: '0', right: '0', margin: '0 10% 0 10%', zIndex: 10}}
 		>
 			<Form.Item label="Name" name='nameI' style={{margin: '0 30px 10px 0'}} >
 				<Input />
 			</Form.Item>
-			<Form.Item label="Expire" name='expirationI' style={{margin: '0 0 10px'}}>
-				<DatePicker />
+			<Form.Item label="Expire" name='expireI' style={{margin: '0 0 10px'}}>
+				<DatePicker/>
 			</Form.Item>
 			<Form.Item label="Count" name='countI' style={{margin: '0 0 10px'}}>
 				<InputNumber/>
 			</Form.Item>
 			<Form.Item label="Category" name="categoryI" style={{margin: '0 0 10px'}}>
 				<Select>
-					<Select.Option value="diary">Diary</Select.Option>
+					<Select.Option value="dairy">Diary</Select.Option>
 					<Select.Option value="fruit">Fruit</Select.Option>
 					<Select.Option value="vegetable">Vegetable</Select.Option>
 					<Select.Option value="meat">Meat</Select.Option>

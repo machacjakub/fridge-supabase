@@ -21,8 +21,7 @@ export default async function userHandler( req: NextApiRequest, res: NextApiResp
 	// 	}
 	// 	break;
 	case 'PUT':
-		await updateItemMutation( body );
-		res.send( await getItemsQuery() );
+		res.send( await updateItemMutation( body ) );
 		// TODO handle errors and check for existing id
 		//res.status( 404 ).send( 'Error - item not updated' );
 		break;

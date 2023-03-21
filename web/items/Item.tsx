@@ -2,18 +2,19 @@
 import { useState } from "react";
 import { IItem } from "@/web/types";
 import {Col, Row} from "antd";
-import {getCategoryIcon} from "@/web/items/categoryIcons";
+import {getCategoryConfig} from "@/web/items/categoryConfig";
 
 interface IProps {
     item: IItem;
     handleTap: ( item: IItem ) => void;
     handleDoubleTap: ( item: IItem ) => void;
-	page: number;
+	handleHold: ( item: IItem ) => void;
 }
 
-export const Item = ( {item, handleTap, handleDoubleTap, page}: IProps ) => {
-	const [color, setColor] = useState( '#E8E8E8' );
-	//const color = 'grey';
+const category = getCategoryConfig();
+
+export const Item = ( {item, handleTap, handleDoubleTap, handleHold}: IProps ) => {
+	// const [color, setColor] = useState( '#E8E8E8' );
 	const [stav, setStav] = useState( '-' );
 	const longTouch = 300;
 	let touchTimeout:any;
@@ -23,10 +24,9 @@ export const Item = ( {item, handleTap, handleDoubleTap, page}: IProps ) => {
 	let hold = false;
 
 	function eHold() {
-		setStav( 'hold' );
-		setColor( 'grey' );
-		setTimeout( () => setColor( 'lightgrey' ), 2000 );
-		console.log( 'hold' );
+		console.log( 'inside eHold' );
+		handleHold( item );
+		console.log( 'end of eHold' );
 	}
 
 	function eClick() {
@@ -71,15 +71,15 @@ export const Item = ( {item, handleTap, handleDoubleTap, page}: IProps ) => {
 		<div
 			className="item"
 			style={{
-				backgroundColor: color,
+				backgroundColor: category[item.category].color,
 				padding: '18px 18px 13px 18px',
 				margin: '8px 5px',
 				borderRadius: '15px',
 				fontSize: '18px',
 				border:
 					item.state == 'open'
-						? '2px solid black'
-						: `2px solid ${color}`,
+						? '3px solid black'
+						: `3px solid ${category[item.category].color}`,
 			}}
 			onTouchStart={hTouchS}
 			onTouchEnd={hTouchEnd}
@@ -88,12 +88,12 @@ export const Item = ( {item, handleTap, handleDoubleTap, page}: IProps ) => {
 			{/* eslint-disable-next-line react/jsx-no-undef */}
 			<Row>
 				<Col span={3} style={{fontSize: '20px'}}>
-					{getCategoryIcon( item.category )}
+					{category[item.category].icon}
 				</Col>
 				<Col span={12} style={{fontSize: '15px'}}>
 					{item.name}
 				</Col>
-				<Col span={8} style={{fontSize: '14px', marginTop: '1px', color: 'gray'}}>
+				<Col span={8} style={{fontSize: '14px', marginTop: '1px', color: 'rgba(0, 0, 0, 0.4)'}}>
 					{item.expire}
 				</Col>
 				<Col span={1} style={{fontSize: '16px'}}>

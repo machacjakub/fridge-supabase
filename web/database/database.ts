@@ -17,6 +17,19 @@ const operations = {
 		log.info( 'Getting items form database succeeded' );
 		return data;
 	},
+	getItemsWhereStateIs: async ( states: string[] ) => {
+		const log = getFunctionLog( 'getItems' );
+		const { data, error }: any = await supabase
+			.from( 'items' )
+			.select( '*' )
+			.in( 'state', states );
+		if ( error ) {
+			log.error( 'Failed to get items with state' );
+			return error;
+		}
+		log.info( 'Getting items form database succeeded' );
+		return data;
+	},
 	addItem: async ( item: IItemToAdd ) => {
 		const log = getFunctionLog( 'addItem' );
 
@@ -37,8 +50,7 @@ const operations = {
 		const {data, error}: any = await supabase
 			.from( 'items' )
 			.update( item )
-			.eq( 'id', item.id )
-			.select( '*' );
+			.eq( 'id', item.id );
 		if ( error ) {
 			log.error( 'Failed to update item' );
 			return error;

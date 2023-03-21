@@ -1,16 +1,16 @@
 TODO file
+- pridat 'deletedAt' aby se v seznamu deleted mohlo radit podle datumu smazani
+- pridat subscriby
 - zobrazovat verzi
-- presunout sorting do sql
 - dotahnout logger vsude
-- vyresit item count, expire a category zobrazeni
 - funkce ktera bude slucovat stejne polozky
 - logo a pocatecni obrazovka
 - loader from antd nebo jenom zobrazit logo? nebo oboje pod sebou?
 - remove /public folder
 - kazda stranka bude posilat dotaz do databaze jenom pro svoje polozky
 - moznost mazat polozky v sekci deleted
-- edit item na podrzeni
 - vylepsit design
+- presunout sorting do sql
 
 NAPADY
 - lehce pruhledny a sedy formular
@@ -19,7 +19,8 @@ NAPADY
 
 
 Done in this PR
-
+- vyresit item count, expire a category zobrazeni
+- edit item na podrzeni
 
 DONE
 - pridat fungujici vyskakovaci formular

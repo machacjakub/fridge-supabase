@@ -2,7 +2,6 @@
   "extends": ["next/core-web-vitals"/*, "plugin:functional/recommended"*/],
   "plugins": ["unused-imports", "functional"],
   "rules": {
-    "no-restricted-imports": ["error", { "paths": ["@ant-design/icons"] }],
     "no-unused-vars": "off",
     "no-var": "error",
     "prefer-const": "error",

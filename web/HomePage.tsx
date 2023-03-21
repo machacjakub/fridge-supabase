@@ -1,9 +1,9 @@
 import {Navbar} from "@/web/layout/navbar/Navbar";
 import React, {useEffect, useState} from "react";
-import {IFormData, IItem, TItems, TState} from "@/web/types";
+import {IFormData, IItem, IItemToAdd, TItems, TState} from "@/web/types";
 import {ItemsList} from "@/web/items/ItemsList";
 import BottomBar from "@/web/layout/bottom-bar/BottomBar";
-import {addItemRequest, doubleTapItemEvent, getItemsRequest, tapItemEvent} from "@/web/apiRequests";
+import {addItemRequest, changeItemRequest, doubleTapItemEvent, getItemsRequest, tapItemEvent} from "@/web/apiRequests";
 import {FormComponent} from "@/web/form/FormComponent";
 import {LoadingOutlined} from "@ant-design/icons";
 import {pipe} from "fputils";
@@ -15,6 +15,7 @@ export const HomePage = ( ) => {
 	const [loading, setLoading] = useState( true );
 	const pages: TState[] = ['toBuy', 'inFridge', 'deleted'];
 	const [formIsDisplayed, setFormDisplayed] = useState<boolean>( false );
+	const [itemToEdit, setItemToEdit] = useState<IItem|undefined>( );
 	useEffect( () => {
 		const fetchItems = async () => {
 			const data = await getItemsRequest();
@@ -24,15 +25,33 @@ export const HomePage = ( ) => {
 		fetchItems();
 	}, [] );
 
-	// const changeItem = async ( item: IItem ) => {
-	// 	await changeItemRequest( item );
-	// 	const data = await getItemsRequest();
-	// 	setItems( data );
-	// };
+	if ( loading || !items || items.length === 0 ){
+		return <div style={{ height: '700px', textAlign: 'center'}}><LoadingOutlined style={{fontSize: '30px', marginTop: '350px' }} /></div> ;
+	}
+
+	const changeItem = async ( item: IItem ) => {
+		const changedItem = await changeItemRequest( item );
+		setItems( [...items.filter( ( item ) => item.id !== changedItem[0].id ), ...changedItem] );
+	};
+	
+	const addItem = async ( item: IItemToAdd ) => {
+		const newItem = ( await addItemRequest( {...item, state: pages[page]} ) )[0];
+		setItems( [...items, newItem] );
+	};
 
 	const handleFormSubmit = async ( item: IFormData ) => {
+		if ( itemToEdit ){
+			await changeItem( {...item, id: itemToEdit.id, state: itemToEdit.state} );
+			setItemToEdit( undefined );
+		} else {
+			await addItem( {...item, state: pages[page]} );
+		}
 		setFormDisplayed( false );
-		pipe( await addItemRequest( {...item, state: pages[page]} ), setItems );
+	};
+
+	const handleFormClose = () => {
+		setFormDisplayed( false );
+		setItemToEdit( undefined );
 	};
 
 	const handlePageChange = ( increment: number ) => {
@@ -49,14 +68,16 @@ export const HomePage = ( ) => {
 		pipe( await doubleTapItemEvent( item ), setItems );
 	};
 	
+	const handleItemHold = async ( item: IItem ) => {
+		setItemToEdit( {...item} );
+		setFormDisplayed( true );
+	  	return item;
+	};
 
-	if ( loading || !items || items.length === 0 ){
-		return <div style={{ height: '700px', textAlign: 'center'}}><LoadingOutlined style={{fontSize: '30px', marginTop: '350px' }} /></div> ;
-	}
 	return ( <>
 		<Navbar page={page}/>
-		<FormComponent handleFormSubmit={handleFormSubmit} isDisplayed={formIsDisplayed} handleFormClose={() => setFormDisplayed( false )} />
-		<ItemsList page={page} items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )} handlePageChange={handlePageChange} handleItemTap={handleItemTap} handleItemDoubleTap={handleItemDoubleTap}/>
+		{formIsDisplayed && <FormComponent handleFormSubmit={handleFormSubmit} isDisplayed={formIsDisplayed} handleFormClose={handleFormClose} itemToEdit={itemToEdit} />}
+		<ItemsList items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )} handlePageChange={handlePageChange} handleItemTap={handleItemTap} handleItemDoubleTap={handleItemDoubleTap} handleItemHold={handleItemHold}/>
 		<BottomBar currentPage={page} handlePageChange={handlePageChange} handleFormOpen={() => setFormDisplayed( true )} />
 	</>
 	);

@@ -21,9 +21,8 @@ export default async function hanlder (
 		res.status( 200 ).json( data );
 		break;
 	case 'POST':
-		await addItemMutation( body );
-		const newData = await getItemsQuery();
-		res.status( 200 ).json( newData );
+		const addedItem = await addItemMutation( body );
+		res.status( 200 ).json( addedItem );
 		break;
 	default:
 		res.setHeader( 'Allow', ['GET', 'PUT'] );
