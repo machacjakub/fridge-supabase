@@ -2,10 +2,10 @@
 //'use client';
 
 import { AnimatePresence, motion } from "framer-motion";
-import { IItem, TItems } from "@/web/types";
+import {IItem, TItems, TState} from "@/web/types";
 import { Item } from "./Item";
 import {useSwipeable} from "react-swipeable";
-import {sortByExpire} from "@/web/utils";
+import { sortForPage} from "@/web/utils";
 
 interface IProps {
     items: TItems;
@@ -13,11 +13,11 @@ interface IProps {
     handleItemDoubleTap: ( item: IItem ) => void;
 	handleItemHold: ( item: IItem ) => void;
 	handlePageChange: ( increment: number ) => void
+	page: TState;
 }
 
-export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemDoubleTap, handleItemHold }:IProps ) => {
-	const itemsSorted: TItems = sortByExpire( items );
-	const itemsToDisplay = [...itemsSorted.filter( ( item ) => item.state === 'open' ), ...itemsSorted.filter( ( item ) => item.state !== 'open' )];
+export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemDoubleTap, handleItemHold, page }:IProps ) => {
+	const itemsSorted: TItems = sortForPage( page, items );
 	const handlers = useSwipeable( {
 		onSwipedLeft: () => {
 			handlePageChange( 1 );
@@ -26,11 +26,14 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 			handlePageChange( -1 );
 		},
 	} );
-	const pad = itemsToDisplay.length <= 6 ? `${800 - items.length * 80}px` : '100px';
+	const pad = itemsSorted.length <= 6 ? `${800 - items.length * 80}px` : '100px';
 	return (
-		<div {...handlers} style={{paddingBottom: pad, touchAction: 'pan-x pan-y pinch-to-zoom'}}>
+		<div {...handlers} style={{paddingBottom: pad, touchAction: 'manipulation',
+			zoom: '1',
+			maxHeight: '100vh',
+			maxWidth: "100vw",}}>
 			<AnimatePresence >
-				{items ? itemsToDisplay.map( ( item: IItem ) => (
+				{items ? itemsSorted.map( ( item: IItem ) => (
 					<motion.div
 						key={item.id}
 						initial={{ opacity: 0 }}

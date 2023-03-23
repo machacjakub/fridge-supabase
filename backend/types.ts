@@ -7,6 +7,7 @@ export interface IItem {
     count: number;
     state: TState;
     category: TCategory;
+    deletedAt?: string | null;
 }
 export interface IItemToAdd {
     name: string;

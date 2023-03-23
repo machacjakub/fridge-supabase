@@ -61,7 +61,8 @@ export const HomePage = ( ) => {
 
 	// const tapHandlers = getItemsOperations( addItem, changeItem );
 	const handleItemTap =async ( item: IItem ) => {
-		pipe( await tapItemEvent( item ), setItems );
+		const changedItems = await tapItemEvent( item );
+		setItems( [...items.filter( ( item ) => item.id !== changedItems[0].id ), ...changedItems] ) ;
 	};
 
 	const handleItemDoubleTap =async ( item: IItem ) => {
@@ -77,7 +78,12 @@ export const HomePage = ( ) => {
 	return ( <>
 		<Navbar page={page}/>
 		{formIsDisplayed && <FormComponent handleFormSubmit={handleFormSubmit} isDisplayed={formIsDisplayed} handleFormClose={handleFormClose} itemToEdit={itemToEdit} />}
-		<ItemsList items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )} handlePageChange={handlePageChange} handleItemTap={handleItemTap} handleItemDoubleTap={handleItemDoubleTap} handleItemHold={handleItemHold}/>
+		<ItemsList
+			items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )}
+			handlePageChange={handlePageChange}
+			handleItemTap={handleItemTap}
+			handleItemDoubleTap={handleItemDoubleTap}
+			handleItemHold={handleItemHold} page={pages[page]}/>
 		<BottomBar currentPage={page} handlePageChange={handlePageChange} handleFormOpen={() => setFormDisplayed( true )} />
 	</>
 	);
