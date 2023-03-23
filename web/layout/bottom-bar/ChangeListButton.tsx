@@ -1,6 +1,9 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import * as React from 'react';
 import {getPageConfig} from "@/web/config";
+import {Typography} from 'antd';
+
+const {Text} = Typography;
 
 interface IProps {
     handlePageChange: ( x: number ) => void;
@@ -10,7 +13,6 @@ interface IProps {
 
 const ChangeListButton = ( {handlePageChange, direction, currentPage}: IProps ) => {
 	const handleClick = () => {
-		console.log( 'change ' + direction );
 		handlePageChange( direction );
 	};
 
@@ -20,15 +22,16 @@ const ChangeListButton = ( {handlePageChange, direction, currentPage}: IProps ) 
 		<div style={{
 			backgroundColor: pageConfig.color,
 			width: '55px',
-			height: '17px',
-			padding: '6px',
+			height: '19px',
+			padding: '5px',
 			borderRadius: '14px',
 			textAlign: 'center',
 			marginTop: '12px',
 		}} onTouchStart={handleClick} >
-			<p style={{ fontSize: '14px', margin: '0' }}>
+			{/* eslint-disable-next-line react/jsx-no-undef */}
+			<Text style={{ fontSize: '12px', margin: '0' }}>
 				{pageConfig.title}
-			</p>
+			</Text>
 		</div>
 	);
 };

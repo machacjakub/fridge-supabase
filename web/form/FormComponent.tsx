@@ -33,10 +33,11 @@ const dateFormat = 'YYYY-MM-DD';
 
 export const FormComponent = ( {handleFormSubmit, isDisplayed, handleFormClose, itemToEdit}: IProps ) => {
 	const [name, setName] = useState<string>( itemToEdit ? itemToEdit.name : '' );
-	const [expire, setExpire] = useState<any>( itemToEdit ? itemToEdit.expire : dayjs( new Date(), dateFormat ) );
+	const [expire, setExpire] = useState<any>( itemToEdit ? itemToEdit.expire : toDateReadable( new Date() ) );
 	const [count, setCount] = useState<number>( itemToEdit ? itemToEdit.count : 1 );
 	const [category, setCategory] = useState<TCategory>( itemToEdit ? itemToEdit.category : 'other' );
 
+	console.log( 'date: ', dayjs( new Date(), dateFormat ) );
 	const handleChange = ( { nameI, expireI, countI, categoryI }: IOnChangeP ) => {
 		if ( nameI ) setName( nameI );
 		if ( expireI ) pipe( expireI, toDate, toDateReadable, setExpire );

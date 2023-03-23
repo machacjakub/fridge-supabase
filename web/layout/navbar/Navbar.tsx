@@ -1,6 +1,9 @@
 /* eslint-disable no-restricted-imports */
 import { MenuOutlined } from '@ant-design/icons';
 import {getPageConfig} from "@/web/config";
+import {Typography, Row, Col} from 'antd';
+
+const { Title, Text} = Typography;
 
 export const Navbar = ( {page}:any ) => {
 	const today = new Date();
@@ -9,22 +12,18 @@ export const Navbar = ( {page}:any ) => {
 	const year = today.getFullYear();
 	const pageConfig = getPageConfig( page );
 	return (
-		<table style={{ width: '100%' }}>
-			<tbody>
-				<tr>
-					<td style={{ width: '25%', textAlign: 'center' }}>
-						<MenuOutlined />
-					</td>
-					<td style={{ width: '50%', textAlign: 'center' }}>
-						<h1>
-							{pageConfig.title}
-						</h1>
-					</td>
-					<td style={{ width: '25%', textAlign: 'center' }}>
-						{day}.{month}.{year}
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<Row>
+			<Col span={6} style={{ textAlign: 'center', padding: '25px 0' }}>
+				<MenuOutlined style={{fontSize: '18px'}} />
+			</Col>
+			<Col span={12} style={{ textAlign: 'center' }}>
+				<Title style={{margin: '12px 0'}}>
+					{pageConfig.title}
+				</Title>
+			</Col>
+			<Col span={6} style={{ textAlign: 'center', padding: '25px 0' }}>
+				<Text style={{fontSize: '16px'}}>{day}.{month}.{year}</Text>
+			</Col>
+		</Row>
 	);
 };

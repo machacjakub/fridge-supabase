@@ -28,7 +28,7 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 	} );
 	const pad = itemsToDisplay.length <= 6 ? `${800 - items.length * 80}px` : '100px';
 	return (
-		<div {...handlers} style={{paddingBottom: pad}}>
+		<div {...handlers} style={{paddingBottom: pad, touchAction: 'pan-x pan-y pinch-to-zoom'}}>
 			<AnimatePresence >
 				{items ? itemsToDisplay.map( ( item: IItem ) => (
 					<motion.div
