@@ -27,11 +27,11 @@ export default async function userHandler( req: NextApiRequest, res: NextApiResp
 	case 'DELETE':
 		if ( id ){
 			res.status( 200 ).send( await deleteItemMutation( Number( id ) ) );
+			break;
 		}
 		res.status( 404 ).send( 'Error - item not deleted' );
 		break;
 	default:
-		console.log( 'code should not go here' );
 		res.setHeader( 'Allow', ['GET', 'PUT'] );
 		res.status( 405 ).end( `Method ${method} Not Allowed` );
 	}

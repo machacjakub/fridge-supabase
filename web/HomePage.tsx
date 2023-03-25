@@ -14,7 +14,26 @@ import {
 import {FormComponent} from "@/web/form/FormComponent";
 import {LoadingOutlined} from "@ant-design/icons";
 import {pipe} from "fputils";
+import {supabaseAnonKey, supabaseURL} from "@/backend/database/supabaseClient";
+import {getNewItemsFromPayload} from "@/web/utils";
 
+
+const { createClient } = require( '@supabase/supabase-js' );
+
+const supabase = createClient( supabaseURL, supabaseAnonKey );
+
+// const channel = supabase
+// 	.channel( 'schema-db-changes' )
+// 	.on(
+// 		'postgres_changes',
+// 		{
+// 			event: '*',
+// 			schema: 'public',
+// 			table: 'items'
+// 		},
+// 		( payload: any ) => console.log( 'Change recieved',payload )
+// 	)
+// 	.subscribe();
 // eslint-disable-next-line react/display-name
 export const HomePage = ( ) => {
 	const [items, setItems] = useState<TItems|null>( null );
@@ -25,11 +44,32 @@ export const HomePage = ( ) => {
 	const [itemToEdit, setItemToEdit] = useState<IItem|undefined>( );
 	useEffect( () => {
 		const fetchItems = async () => {
+			console.log( 'fetching items' );
 			const data = await getItemsRequest();
 			setItems( data );
 			setLoading( false );
 		};
 		fetchItems();
+
+		const channel = supabase
+			.channel( 'schema-db-changes' )
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'items'
+				},
+				( payload: any ) => {
+					console.log( 'Change recieved',payload );
+					if ( items !== null ) {
+						setItems( getNewItemsFromPayload( items, payload ) );
+					} else {
+						fetchItems();
+					}
+				}
+			)
+			.subscribe();
 	}, [] );
 
 	if ( loading || !items || items.length === 0 ){

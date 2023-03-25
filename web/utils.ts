@@ -23,6 +23,13 @@ export const sortForPage = ( page: TState, items:TItems ) => {
 	return [...itemsSorted.filter( ( item ) => item.state === 'open' ), ...itemsSorted.filter( ( item ) => item.state !== 'open' )];
 };
 
+export const getNewItemsFromPayload = ( items: TItems, payload: {new: any, old: {id: number}} ) => {
+	if ( JSON.stringify( payload.new ) === '{}' ) {
+		return [ ...items.filter( ( item ) => payload.old.id !== item.id )];
+	}
+	return [...items, payload.new];
+};
+
 /*
 export const joinDuplicates = ([...items]: TItems) => {
     if()
