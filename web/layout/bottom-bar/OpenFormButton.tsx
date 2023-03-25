@@ -10,6 +10,7 @@ export const OpenFormButton = ( {handleClick}:IProps ) => {
 	return (
 		<div style={{
 			color: 'gray',
+			width: '20%',
 			textAlign: 'center',
 			marginTop: '12px'
 		}} onClick={handleClick}>

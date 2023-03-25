@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {updateItemMutation} from "@/backend/items/updateItem";
-import {getItemsQuery} from "@/backend/items/getItems";
 import {deleteItemMutation} from "@/backend/items/deleteItem";
 
 export default async function userHandler( req: NextApiRequest, res: NextApiResponse ) {
@@ -27,12 +26,12 @@ export default async function userHandler( req: NextApiRequest, res: NextApiResp
 		break;
 	case 'DELETE':
 		if ( id ){
-			await deleteItemMutation( Number( id ) );
-			res.status( 204 ).send( await getItemsQuery() );
+			res.status( 200 ).send( await deleteItemMutation( Number( id ) ) );
 		}
 		res.status( 404 ).send( 'Error - item not deleted' );
 		break;
 	default:
+		console.log( 'code should not go here' );
 		res.setHeader( 'Allow', ['GET', 'PUT'] );
 		res.status( 405 ).end( `Method ${method} Not Allowed` );
 	}

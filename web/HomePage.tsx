@@ -3,7 +3,14 @@ import React, {useEffect, useState} from "react";
 import {IFormData, IItem, IItemToAdd, TItems, TState} from "@/web/types";
 import {ItemsList} from "@/web/items/ItemsList";
 import BottomBar from "@/web/layout/bottom-bar/BottomBar";
-import {addItemRequest, changeItemRequest, doubleTapItemEvent, getItemsRequest, tapItemEvent} from "@/web/apiRequests";
+import {
+	addItemRequest,
+	changeItemRequest,
+	deleteItemRequest,
+	doubleTapItemEvent,
+	getItemsRequest,
+	tapItemEvent
+} from "@/web/apiRequests";
 import {FormComponent} from "@/web/form/FormComponent";
 import {LoadingOutlined} from "@ant-design/icons";
 import {pipe} from "fputils";
@@ -39,6 +46,16 @@ export const HomePage = ( ) => {
 		setItems( [...items, newItem] );
 	};
 
+	const deleteItem = async ( itemId: number ) => {
+		await deleteItemRequest( itemId );
+		setItems( [...items.filter( ( item ) => item.id !== itemId )] );
+	};
+
+	const editItem = async ( item: IItem ) => {
+		setItemToEdit( {...item} );
+		setFormDisplayed( true );
+	};
+
 	const handleFormSubmit = async ( item: IFormData ) => {
 		if ( itemToEdit ){
 			await changeItem( {...item, id: itemToEdit.id, state: itemToEdit.state} );
@@ -68,12 +85,6 @@ export const HomePage = ( ) => {
 	const handleItemDoubleTap =async ( item: IItem ) => {
 		pipe( await doubleTapItemEvent( item ), setItems );
 	};
-	
-	const handleItemHold = async ( item: IItem ) => {
-		setItemToEdit( {...item} );
-		setFormDisplayed( true );
-	  	return item;
-	};
 
 	return ( <>
 		<Navbar page={page}/>
@@ -81,9 +92,11 @@ export const HomePage = ( ) => {
 		<ItemsList
 			items={items.filter( ( item ) => item.state === pages[page] || ( item.state === 'open' && pages[page] === 'inFridge' ) )}
 			handlePageChange={handlePageChange}
-			handleItemTap={handleItemTap}
+			handleItemTap={handleItemTap }
 			handleItemDoubleTap={handleItemDoubleTap}
-			handleItemHold={handleItemHold} page={pages[page]}/>
+			handleItemEdit={editItem}
+			handleItemDelete={deleteItem}
+			page={pages[page]}/>
 		<BottomBar currentPage={page} handlePageChange={handlePageChange} handleFormOpen={() => setFormDisplayed( true )} />
 	</>
 	);

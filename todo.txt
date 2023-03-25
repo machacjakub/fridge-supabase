@@ -1,16 +1,14 @@
 TODO file
-- pridat 'deletedAt' aby se v seznamu deleted mohlo radit podle datumu smazani
-- pridat subscriby
-- zobrazovat verzi
+- merging stejny items
 - dotahnout logger vsude
-- funkce ktera bude slucovat stejne polozky
+- pridat subscriby
+- uklidit appku tak aby byla maximalne prehledna, velky refactoring
+- vytvorit drawer
+- zobrazovat verzi
+- automaticke mazani po mesici nebo pri 30+ polozkach
 - logo a pocatecni obrazovka
 - loader from antd nebo jenom zobrazit logo? nebo oboje pod sebou?
 - remove /public folder
-- kazda stranka bude posilat dotaz do databaze jenom pro svoje polozky
-- moznost mazat polozky v sekci deleted
-- vylepsit design
-- presunout sorting do sql
 
 NAPADY
 - lehce pruhledny a sedy formular
@@ -19,8 +17,9 @@ NAPADY
 
 
 Done in this PR
-- vyresit item count, expire a category zobrazeni
-- edit item na podrzeni
+- umoznit mazani
+- pridat 'deletedAt' aby se v seznamu deleted mohlo radit podle datumu smazani
+- vylepsit design
 
 DONE
 - pridat fungujici vyskakovaci formular
@@ -30,3 +29,5 @@ DONE
 - loader from antd
 - vytvorit resolvery jako mezikrok
 - presunout klikaci logiku na BE
+- vyresit item count, expire a category zobrazeni
+- edit item na podrzeni

@@ -1,21 +1,24 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { useState } from "react";
 import { IItem } from "@/web/types";
-import {Col, Row} from "antd";
+import {Button, Col, Row} from "antd";
 import {getCategoryConfig} from "@/web/items/categoryConfig";
+import {CaretUpOutlined} from "@ant-design/icons";
 
 interface IProps {
     item: IItem;
     handleTap: ( item: IItem ) => void;
     handleDoubleTap: ( item: IItem ) => void;
-	handleHold: ( item: IItem ) => void;
+	handleEdit: ( item: IItem ) => void;
+	handleDelete: ( id: number ) => void;
 }
 
 const category = getCategoryConfig();
 
-export const Item = ( {item, handleTap, handleDoubleTap, handleHold}: IProps ) => {
+export const Item = ( {item, handleTap, handleDoubleTap, handleEdit, handleDelete}: IProps ) => {
 	// const [color, setColor] = useState( '#E8E8E8' );
 	const [stav, setStav] = useState( '-' );
+	const [isEditing, setEditing] = useState( false );
 	const longTouch = 300;
 	let touchTimeout:any;
 	let holdTimeout;
@@ -23,9 +26,13 @@ export const Item = ( {item, handleTap, handleDoubleTap, handleHold}: IProps ) =
 	let taped = true;
 	let hold = false;
 
+	const onEdit = ( item: IItem ) => {
+		handleEdit( item );
+		setEditing( false );
+	};
+
 	function eHold() {
-		console.log( 'inside eHold' );
-		handleHold( item );
+		setEditing( true );
 		console.log( 'end of eHold' );
 	}
 
@@ -81,11 +88,10 @@ export const Item = ( {item, handleTap, handleDoubleTap, handleHold}: IProps ) =
 						? '3px solid black'
 						: `3px solid ${category[item.category].color}`,
 			}}
-			onTouchStart={hTouchS}
-			onTouchEnd={hTouchEnd}
-			onTouchMove={hTouchMove}
+			onTouchStart={isEditing ? () => {} : hTouchS}
+			onTouchEnd={isEditing ? () => {} : hTouchEnd}
+			onTouchMove={isEditing ? () => {} : hTouchMove}
 		>
-			{/* eslint-disable-next-line react/jsx-no-undef */}
 			<Row>
 				<Col span={3} style={{fontSize: '20px'}}>
 					{category[item.category].icon}
@@ -100,11 +106,20 @@ export const Item = ( {item, handleTap, handleDoubleTap, handleHold}: IProps ) =
 					{item.count}
 				</Col>
 			</Row>
-			{/*<span style={{padding: '10px 15px 0 0', fontSize: '22px'}}>{getCategoryIcon( item.category )}</span>*/}
-			{/*<span style={{position: 'relative', bottom: '5px'}}>{item.name}</span>*/}
-			{/*<span style={{position: 'relative', bottom: '5px', color: 'grey'}}>{item.expire}</span>*/}
-			{/*<span style={{position: 'absolute', right: "36px"}}>{item.count}</span>*/}
+			{isEditing &&
+			<Row style={{marginTop: '16px'}}>
+				<Col span={1}/>
+				<Col span={4} style={{}}>
+					<Button type='primary' onClick={() => onEdit( item )} >Edit</Button>
+				</Col>
+				<Col span={13} style={{textAlign: 'center'}} onClick={() => setEditing( false )}><CaretUpOutlined style={{fontSize: '30px', position: 'relative', top: '10px'}} /></Col>
+				<Col span={6} style={{}}>
+					<Button type='primary' danger onClick={() => handleDelete( item.id )}>Delete</Button>
+				</Col>
+				<Col span={1}/>
+			</Row>}
 		</div>
+
 	);
 };
 

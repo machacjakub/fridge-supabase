@@ -1,9 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import * as React from 'react';
 import {getPageConfig} from "@/web/config";
-import {Typography} from 'antd';
-
-const {Text} = Typography;
+import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 
 interface IProps {
     handlePageChange: ( x: number ) => void;
@@ -20,18 +18,14 @@ const ChangeListButton = ( {handlePageChange, direction, currentPage}: IProps ) 
 
 	return (
 		<div style={{
-			backgroundColor: pageConfig.color,
-			width: '55px',
-			height: '19px',
+			color: pageConfig.color,
+			width: '20%',
+			fontSize: '30px',
 			padding: '5px',
-			borderRadius: '14px',
 			textAlign: 'center',
-			marginTop: '12px',
+			marginTop: '8px',
 		}} onTouchStart={handleClick} >
-			{/* eslint-disable-next-line react/jsx-no-undef */}
-			<Text style={{ fontSize: '12px', margin: '0' }}>
-				{pageConfig.title}
-			</Text>
+			{direction > 0 ? <RightOutlined/> : <LeftOutlined/>}
 		</div>
 	);
 };

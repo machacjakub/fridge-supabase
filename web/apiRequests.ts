@@ -53,6 +53,18 @@ export const changeItemRequest = async ( item: IItem ) => {
 	return await response.json();
 };
 
+export const deleteItemRequest = async ( itemId: number ) => {
+	const log = getFunctionLog( 'deleteItemRequest' );
+	const response = await fetch( `/api/items/${itemId}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	} );
+	log.info( 'Deleting item succeeded' );
+	return await response.json();
+};
+
 export const tapItemEvent = async ( item: IItem ) => {
 	const log = getFunctionLog( 'tapItemEvent' );
 	const response = await fetch( `/api/items/events/tap/${item.id}`, {

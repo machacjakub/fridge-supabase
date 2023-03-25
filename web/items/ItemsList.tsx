@@ -11,12 +11,13 @@ interface IProps {
     items: TItems;
     handleItemTap: ( item: IItem ) => void;
     handleItemDoubleTap: ( item: IItem ) => void;
-	handleItemHold: ( item: IItem ) => void;
+	handleItemEdit: ( item: IItem ) => void;
 	handlePageChange: ( increment: number ) => void
+	handleItemDelete: ( id: number ) => void
 	page: TState;
 }
 
-export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemDoubleTap, handleItemHold, page }:IProps ) => {
+export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemDoubleTap, handleItemEdit, handleItemDelete, page }:IProps ) => {
 	const itemsSorted: TItems = sortForPage( page, items );
 	const handlers = useSwipeable( {
 		onSwipedLeft: () => {
@@ -26,12 +27,9 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 			handlePageChange( -1 );
 		},
 	} );
-	const pad = itemsSorted.length <= 6 ? `${800 - items.length * 80}px` : '100px';
+	const pad = itemsSorted.length <= 7 ? `${570 - items.length * 77}px` : '100px';
 	return (
-		<div {...handlers} style={{paddingBottom: pad, touchAction: 'manipulation',
-			zoom: '1',
-			maxHeight: '100vh',
-			maxWidth: "100vw",}}>
+		<div {...handlers} style={{paddingBottom: pad}}>
 			<AnimatePresence >
 				{items ? itemsSorted.map( ( item: IItem ) => (
 					<motion.div
@@ -46,7 +44,7 @@ export const ItemsList = ( { items, handlePageChange, handleItemTap, handleItemD
 						}}
 						layout
 					>
-						<Item key={item.id} item={item} handleTap={handleItemTap} handleDoubleTap={handleItemDoubleTap} handleHold={handleItemHold}/>
+						<Item key={item.id} item={item} handleTap={handleItemTap} handleDoubleTap={handleItemDoubleTap} handleEdit={handleItemEdit} handleDelete={handleItemDelete} />
 					</motion.div>
 				) ) : 'nodata'}
 			</AnimatePresence>
