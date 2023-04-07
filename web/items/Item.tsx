@@ -1,9 +1,11 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { useState } from "react";
 import { IItem } from "@/web/types";
-import {Button, Col, Row} from "antd";
+import { Button, Col, Row} from "antd";
 import {getCategoryConfig} from "@/web/items/categoryConfig";
 import {CaretUpOutlined} from "@ant-design/icons";
+import styled from "styled-components";
+import { toDate } from "../utils";
 
 interface IProps {
     item: IItem;
@@ -15,11 +17,34 @@ interface IProps {
 
 const category = getCategoryConfig();
 
+const Badge = styled.div`
+	position: relative;
+	top: -25px;
+	left: 28px;
+	height: 24px;
+	width: 24px;
+	line-height: 24px;
+	text-align: center;
+	background-color: ${props => props.color};
+	border-radius: 50%;
+	display: inline-block;
+`;
+
+const howExpired = ( date: string ) => {
+	const expireDate = toDate( date );
+	const today = new Date().toDateString();
+	const diffInDays = ( new Date( today ).getTime() - expireDate.getTime() )/3600000/24;
+	return Math.round( diffInDays );
+};
+
+const getBadgeColor = ( days: number ) => `rgb(${250},${210-days*10},${100-days*2})`;
+
 export const Item = ( {item, handleTap, handleDoubleTap, handleEdit, handleDelete}: IProps ) => {
 	// const [color, setColor] = useState( '#E8E8E8' );
 	const [stav, setStav] = useState( '-' );
 	const [isEditing, setEditing] = useState( false );
 	const longTouch = 300;
+	const daysAfterExpiration = howExpired( item.expire );
 	let touchTimeout:any;
 	let holdTimeout;
 
@@ -99,8 +124,11 @@ export const Item = ( {item, handleTap, handleDoubleTap, handleEdit, handleDelet
 				<Col span={12} style={{fontSize: '15px'}}>
 					{item.name}
 				</Col>
-				<Col span={8} style={{fontSize: '14px', marginTop: '1px', color: 'rgba(0, 0, 0, 0.4)'}}>
+				<Col span={7} style={{fontSize: '14px', marginTop: '1px', color: 'rgba(0, 0, 0, 0.4)'}}>
 					{item.expire}
+				</Col>
+				<Col span={1}>
+					{daysAfterExpiration >= 0 && <Badge color={getBadgeColor( daysAfterExpiration )}>{daysAfterExpiration}</Badge>}
 				</Col>
 				<Col span={1} style={{fontSize: '16px'}}>
 					{item.count}
@@ -119,7 +147,6 @@ export const Item = ( {item, handleTap, handleDoubleTap, handleEdit, handleDelet
 				<Col span={1}/>
 			</Row>}
 		</div>
-
 	);
 };
 

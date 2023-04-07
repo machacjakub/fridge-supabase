@@ -51,7 +51,7 @@ export const HomePage = ( ) => {
 		};
 		fetchItems();
 
-		const channel = supabase
+		supabase
 			.channel( 'schema-db-changes' )
 			.on(
 				'postgres_changes',

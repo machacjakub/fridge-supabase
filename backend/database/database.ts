@@ -28,7 +28,7 @@ const operations = {
 			log.error( 'Failed to add item' );
 			return error;
 		}
-		log.info( 'Adding item to database' );
+		log.info( 'Item successfully added to database' );
 		return data;
 	},
 	updateItem: async ( item: IItem ) => {
@@ -43,7 +43,7 @@ const operations = {
 			log.error( 'Failed to update item' );
 			return error;
 		}
-		log.info( 'Updating item to database succeeded' );
+		log.info( `Updating item ${item.id} to database succeeded` );
 		return data;
 	},
 	deleteItem: async ( itemId: number ) => {
@@ -57,7 +57,7 @@ const operations = {
 			log.error( 'Failed to delete item' );
 			return error;
 		}
-		log.info( `Deleting item ${itemId}  from database succeeded` );
+		log.info( `Deleting item ${itemId} from database succeeded` );
 		return itemId;
 	}
 };
